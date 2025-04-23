@@ -88,11 +88,11 @@ Control the rows, columns, and values displayed in the table:
 ```bash
 cd results_analysis/
 
-python table.py --index language --columns model --values functional_correctness
+python table.py --index language --columns model --value functional_correctness
 ```
 *   `--index`: Specifies the row index(es). Use `metrics` to show metrics as rows.
 *   `--columns`: Specifies the column index. Use `metrics` to show metrics as columns.
-*   `--values`: Specifies the metric to display in the table cells (e.g., `readability`, `robustness`, `cqs`). Use short names like `fc`, `r`, `rb`, `m`, `s`, `hr` for convenience.
+*   `--value`: Specifies the metric to display in the table cells (e.g., `readability`, `robustness`, `cqs`). Use short names like `fc`, `r`, `rb`, `m`, `s`, `hr` for convenience.
 
 #### Other Options
 
