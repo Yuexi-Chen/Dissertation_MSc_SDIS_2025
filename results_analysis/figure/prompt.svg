@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 950" width="850" height="950">
+
+  <text x="425" y="60" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold">Optimal Prompt Template Structure</text>
+  
+  <!-- Background & Objectives -->
+  <rect x="200" y="100" width="450" height="60" rx="10" ry="10" fill="#f7e8b6" stroke="#b89750" stroke-width="1" />
+  <text x="425" y="138" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">Background &amp; Objectives</text>
+  
+  
+  <!-- Core Functional Requirements -->
+  <rect x="200" y="210" width="450" height="60" rx="10" ry="10" fill="#f7e8b6" stroke="#b89750" stroke-width="1" />
+  <text x="425" y="248" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">Core Functional Requirements</text>
+ 
+  
+  <!-- Input/Output Interface Definition -->
+  <rect x="200" y="320" width="450" height="60" rx="10" ry="10" fill="#f7e8b6" stroke="#b89750" stroke-width="1" />
+  <text x="425" y="358" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">Input/Output Interface Definition</text>
+  
+  <!-- Key Constraints & Rules -->
+  <rect x="200" y="440" width="450" height="60" rx="10" ry="10" fill="#f7e8b6" stroke="#b89750" stroke-width="1" />
+  <text x="425" y="478" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">Key Constraints &amp; Rules</text>
+  
+  <!-- Expected Error Handling -->
+  <rect x="200" y="560" width="450" height="60" rx="10" ry="10" fill="#f5f5f5" stroke="#666666" stroke-width="1" />
+  <text x="425" y="598" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">Expected Error Handling (Optional)</text>
+  
+  <!-- Code Quality Focus -->
+  <rect x="200" y="670" width="450" height="60" rx="10" ry="10" fill="#f5f5f5" stroke="#666666" stroke-width="1" />
+  <text x="425" y="708" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">Code Quality Focus (Optional)</text>
+  
+  <!-- Concise Example -->
+  <rect x="200" y="780" width="450" height="60" rx="10" ry="10" fill="#f5f5f5" stroke="#666666" stroke-width="1" />
+  <text x="425" y="818" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold">Concise Example (Optional, Use Cautiously)</text>
+ 
+  <!-- Arrows connecting elements -->
+  <path d="M 425 160 L 425 210" stroke="#000000" fill="none" stroke-width="1.5" />
+  <path d="M 425 270 L 425 320" stroke="#000000" fill="none" stroke-width="1.5" />
+  <path d="M 425 380 L 425 440" stroke="#000000" fill="none" stroke-width="1.5" />
+  <path d="M 425 500 L 425 560" stroke="#000000" fill="none" stroke-width="1.5" />
+  <path d="M 425 620 L 425 670" stroke="#000000" fill="none" stroke-width="1.5" />
+  <path d="M 425 730 L 425 780" stroke="#000000" fill="none" stroke-width="1.5" />
+  
+  <!-- Arrow heads -->
+  <polygon points="425,210 420,200 430,200" fill="#000000" />
+  <polygon points="425,320 420,310 430,310" fill="#000000" />
+  <polygon points="425,440 420,430 430,430" fill="#000000" />
+  <polygon points="425,560 420,550 430,550" fill="#000000" />
+  <polygon points="425,670 420,660 430,660" fill="#000000" />
+  <polygon points="425,780 420,770 430,770" fill="#000000" />
+  
+  <!-- Section brackets -->
+  <!-- Required section bracket -->
+  <path d="M 180 100 Q 170 100 170 110 L 170 470 Q 170 480 160 480 Q 170 480 170 490 L 170 500 Q 170 510 180 510" 
+        fill="none" stroke="#000000" stroke-width="2" />
+  <text x="130" y="305" font-family="Arial" font-size="16" font-weight="bold" transform="rotate(270 130,305)">Required</text>
+  
+  <!-- Optional section bracket -->
+  <path d="M 180 560 Q 170 560 170 570 L 170 850 Q 170 860 180 860"
+        fill="none" stroke="#000000" stroke-width="2" />
+  <text x="130" y="725" font-family="Arial" font-size="16" font-weight="bold" transform="rotate(270 130,725)">Optional</text>
+</svg>

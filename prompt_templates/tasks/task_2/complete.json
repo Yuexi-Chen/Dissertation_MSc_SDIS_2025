@@ -1,0 +1,272 @@
+{
+    "task_id": "task_2",
+    "completeness": "complete",
+    "code_generation_instruction": "Return ONLY the code implementation without any explanation or markdown formatting.",
+    "description": "Dynamic Hospital Bed Reallocation System",
+    "task_description": "Implement a function that allocates and reallocates hospital beds to patients based on priority, hospital levels, and bed availability, optimizing the placement of high-risk patients.",
+    "implementation_requirements": [
+        "1. Input/Output Requirements:",
+        "   a. Do NOT modify the input data structures",
+        "   b. Always return a complete object with the five fields (patient_id, assigned_hospital, assigned_ward, assigned_bed, reallocated_patients)",
+        "   c. When no assignment is possible, return fields as null but maintain the object structure",
+        "   d. The reallocated_patients array should only include patient_id, new_hospital, new_ward, and new_bed fields",
+        "   e. Follow the exact output format shown in the examples",
+        
+        "2. Algorithm:",
+        "   a. Patient Evaluation:",
+        "      - First determine if the patient is high-risk (is_post_surgery = true)",
+        "      - For high-risk patients, ONLY Model 4 hospitals should be considered",
+        "      - For non-high-risk patients, lower model hospitals (Models 1-3) should be prioritized over Model 4 hospitals",
+        "   b. Direct Assignment (First Attempt):",
+        "      - Find all matching wards by checking gender restrictions, age limits, and special requirements",
+        "      - Check for available beds in matching wards",
+        "      - If a bed is available, assign it immediately and return the result",
+        "      - Process beds in ascending numerical order (e.g., bed 1 before bed 2)",
+        "   c. Reallocation (Second Attempt - only for high-risk patients):",
+        "      - If no beds are directly available for a high-risk patient, examine EACH BED in Model 4 hospitals",
+        "      - Check every occupied bed, focusing on patients with days_in_hospital > 3 and non_transferable = false",
+        "      - Process beds in ascending numerical order within each ward (bed 3 before bed 5)",
+        "      - For each potential transferable patient, verify if they can be moved to ANY lower-level hospital",
+        "      - The transferred patient must meet ALL requirements of the new ward (gender, age, special requirements)",
+        "      - When a valid transfer is found: (1) Assign the high-risk patient to the exact bed number of the transferable patient, (2) Move the existing patient to the lowest numbered available bed in their new ward",
+        "      - Record only patient_id, new_hospital, new_ward, and new_bed in the reallocated_patients array",
+        "   d. No Assignment (Final Case):",
+        "      - If no assignment is possible through direct assignment or reallocation, return null values with empty reallocated_patients array",
+        
+        "3. Key Constraints:",
+        "   a. Hospital Model Level Constraints:",
+        "      - High-risk patients must be assigned ONLY to Model 4 hospitals",
+        "      - Non-high-risk patients should be assigned preferentially to lower-level hospitals (Models 1-3) before Model 4",
+        "      - If multiple suitable hospitals exist, process them in the order they appear in the input array",
+        "   b. Patient Transfer Constraints:",
+        "      - Only patients with days_in_hospital > 3 can be considered for reallocation",
+        "      - Patients marked as non_transferable = true must never be reallocated",
+        "      - Reallocated patients must match all requirements of their new ward, including gender restrictions, age limits, and all special requirements",
+        "      - When a patient has special requirements, they can only be transferred to wards that can fulfill these requirements",
+        "   c. Ward Matching Constraints:",
+        "      - Patients must match the gender_restriction of the ward (or ward has 'No Restriction')",
+        "      - Female patients can be assigned to 'Female Only' or 'No Restriction' wards",
+        "      - Male patients can be assigned to 'Male Only' or 'No Restriction' wards",
+        "      - Patient's age must be within the ward's age_restriction range [min, max]",
+        "      - ALL special_requirements of the patient must be provided by the ward",
+        
+        "4. Special Rules and Edge Cases:",
+        "   a. Multiple Candidate Handling:",
+        "      - When multiple patients are candidates for reallocation, prioritize by days_in_hospital (highest first)",
+        "      - If days_in_hospital values are equal, prioritize by bed number (lowest first)",
+        "      - When multiple hospitals/wards are suitable, process them in the order they appear in the input array",
+        "   b. Empty Data Handling:",
+        "      - If a patient has no special_requirements, treat it as an empty array []",
+        "      - A ward with no available_beds should be skipped for direct assignment",
+        "   c. Specific Test Scenarios:",
+        "      - When transferable patients exist but have special requirements that lower-level hospitals cannot fulfill, return null assignments (test case 10)",
+        "      - If no ward can fulfill the patient's special requirements, return null assignments (test case 5)",
+        "      - If patient's age is outside all wards' restrictions, return null assignments (test case 6)",
+        "      - Gender restrictions must be strictly enforced when transferring patients to new wards (test cases 7, 8, 9)",
+        "   d. Bed Selection Rules:",
+        "      - For direct assignments, always select the lowest numbered available bed",
+        "      - For reallocation scenarios, preserve the exact bed number of the transferred patient for the high-risk patient",
+        "      - For example, if a transferable patient is in bed 3, the high-risk patient must be assigned specifically to bed 3",
+        "   e. Data Integrity:",
+        "      - Do not modify the original patient or hospital data structures",
+        "      - Include only the required fields in reallocated_patients: patient_id, new_hospital, new_ward, and new_bed"
+    ],
+    "examples": [
+        {
+            "description": "Example 1: High-risk patient direct assignment to Model 4 hospital available bed",
+            "input": {
+                "patient": {
+                    "id": "P001",
+                    "gender": "Male",
+                    "age": 46,
+                    "condition": "Post-Surgery Recovery",
+                    "special_requirements": ["Intensive Monitoring"],
+                    "is_post_surgery": true
+                },
+                "hospitals": [
+                    {
+                        "id": "H1",
+                        "model": 4,
+                        "wards": [
+                            {
+                                "ward_name": "Surgical Recovery Ward",
+                                "gender_restriction": "No Restriction",
+                                "age_restriction": [18, 80],
+                                "special_requirements": ["Intensive Monitoring"],
+                                "available_beds": [1, 2],
+                                "current_patients": [
+                                    {
+                                        "id": "P101",
+                                        "gender": "Female",
+                                        "age": 65,
+                                        "condition": "Post-Surgery Recovery",
+                                        "days_in_hospital": 5,
+                                        "bed_number": 3,
+                                        "non_transferable": false
+                                    },
+                                    {
+                                        "id": "P102",
+                                        "gender": "Male",
+                                        "age": 70,
+                                        "condition": "Critical Care",
+                                        "days_in_hospital": 2,
+                                        "bed_number": 4,
+                                        "non_transferable": true
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "id": "H3",
+                        "model": 2,
+                        "wards": [
+                            {
+                                "ward_name": "General Ward",
+                                "gender_restriction": "Female Only",
+                                "age_restriction": [18, 85],
+                                "special_requirements": [],
+                                "available_beds": [1, 2, 3],
+                                "current_patients": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            "output": {
+                "patient_id": "P001",
+                "assigned_hospital": "H1",
+                "assigned_ward": "Surgical Recovery Ward",
+                "assigned_bed": 1,
+                "reallocated_patients": []
+            }
+        },
+        {
+            "description": "Example 2: High-risk patient requires reallocation of existing patient",
+            "input": {
+                "patient": {
+                    "id": "P002",
+                    "gender": "Male",
+                    "age": 50,
+                    "condition": "Post-Surgery Recovery",
+                    "special_requirements": ["Intensive Monitoring"],
+                    "is_post_surgery": true
+                },
+                "hospitals": [
+                    {
+                        "id": "H1",
+                        "model": 4,
+                        "wards": [
+                            {
+                                "ward_name": "Surgical Recovery Ward",
+                                "gender_restriction": "No Restriction",
+                                "age_restriction": [18, 80],
+                                "special_requirements": ["Intensive Monitoring"],
+                                "available_beds": [],
+                                "current_patients": [
+                                    {
+                                        "id": "P101",
+                                        "gender": "Female",
+                                        "age": 65,
+                                        "condition": "Post-Surgery Recovery",
+                                        "days_in_hospital": 5,
+                                        "bed_number": 3,
+                                        "non_transferable": false
+                                    },
+                                    {
+                                        "id": "P102",
+                                        "gender": "Male",
+                                        "age": 70,
+                                        "condition": "Critical Care",
+                                        "days_in_hospital": 2,
+                                        "bed_number": 4,
+                                        "non_transferable": true
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "id": "H3",
+                        "model": 2,
+                        "wards": [
+                            {
+                                "ward_name": "General Ward",
+                                "gender_restriction": "Female Only",
+                                "age_restriction": [18, 85],
+                                "special_requirements": [],
+                                "available_beds": [1, 2, 3],
+                                "current_patients": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            "output": {
+                "patient_id": "P002",
+                "assigned_hospital": "H1",
+                "assigned_ward": "Surgical Recovery Ward",
+                "assigned_bed": 3,
+                "reallocated_patients": [
+                    {
+                        "patient_id": "P101",
+                        "new_hospital": "H3",
+                        "new_ward": "General Ward",
+                        "new_bed": 1
+                    }
+                ]
+            }
+        },
+        {
+            "description": "Example 3: Regular patient assignment to appropriate level hospital",
+            "input": {
+                "patient": {
+                    "id": "P003",
+                    "gender": "Female",
+                    "age": 35,
+                    "condition": "General Care",
+                    "special_requirements": [],
+                    "is_post_surgery": false
+                },
+                "hospitals": [
+                    {
+                        "id": "H1",
+                        "model": 4,
+                        "wards": [
+                            {
+                                "ward_name": "Surgical Recovery Ward",
+                                "gender_restriction": "No Restriction",
+                                "age_restriction": [18, 80],
+                                "special_requirements": ["Intensive Monitoring"],
+                                "available_beds": [1, 2],
+                                "current_patients": []
+                            }
+                        ]
+                    },
+                    {
+                        "id": "H3",
+                        "model": 2,
+                        "wards": [
+                            {
+                                "ward_name": "General Ward",
+                                "gender_restriction": "Female Only",
+                                "age_restriction": [18, 85],
+                                "special_requirements": [],
+                                "available_beds": [1, 2, 3],
+                                "current_patients": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            "output": {
+                "patient_id": "P003",
+                "assigned_hospital": "H3",
+                "assigned_ward": "General Ward",
+                "assigned_bed": 1,
+                "reallocated_patients": []
+            }
+        }
+    ],
+    "expected_output_fields": ["patient_id", "assigned_hospital", "assigned_ward", "assigned_bed", "reallocated_patients"]
+} 

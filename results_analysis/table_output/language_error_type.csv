@@ -1,0 +1,4 @@
+language,ImportError,NameError,RuntimeError,SyntaxError,TypeError
+go,3,5,16,0,0
+javascript,0,0,1,2,4
+python,0,0,15,0,0

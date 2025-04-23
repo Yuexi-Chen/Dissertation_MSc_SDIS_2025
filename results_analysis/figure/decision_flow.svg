@@ -1,0 +1,106 @@
+<svg width="1050" height="800" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .header-box { fill: #0077c2; stroke: none; }
+    .start-box { fill: #f8f9fa; stroke: #0077c2; stroke-width: 2; }
+    .decision-box { fill: #e3f2fd; stroke: #0077c2; stroke-width: 2; }
+    .path-box { fill: #ffffff; stroke: #0077c2; stroke-width: 1.5; }
+    .feedback-box { fill: #fff3e0; stroke: #ff9800; stroke-width: 2; }
+    .arrow { stroke: #90a4ae; stroke-width: 1.5; }
+    .text-primary { font-family: Arial; fill: #2c3e50; }
+    .text-white { font-family: Arial; fill: #ffffff; }
+    .text-highlight { font-family: Arial; fill: #0077c2; }
+    .bullet-point { font-size: 12px; }
+  </style>
+
+  <!-- Title -->
+  <rect class="header-box" x="300" y="30" width="400" height="50" rx="5"/>
+  <text class="text-white" x="500" y="60" text-anchor="middle" font-size="18" font-weight="bold">
+    Prompt Optimization Decision Flow
+  </text>
+
+  <!-- Starting Point -->
+  <rect class="start-box" x="350" y="105" width="300" height="80" rx="5"/>
+  <text class="text-primary" x="500" y="140" text-anchor="middle" font-size="14">
+    <tspan x="500" dy="0">Starting Point</tspan>
+    <tspan x="500" dy="25">Task Requirements & Target Model</tspan>
+  </text>
+
+  <!-- Optimization Goal Decision -->
+  <rect class="decision-box" x="350" y="220" width="300" height="100" rx="5"/>
+  <text class="text-primary" x="500" y="265" text-anchor="middle" font-size="14">
+    <tspan x="500" dy="0" font-weight="bold">Determine Primary Optimization Goal</tspan>
+    <tspan x="500" dy="25">FC / R / M / HR / CQS</tspan>
+  </text>
+
+  <!-- Four Branch Paths -->
+  <!-- FC Path -->
+  <rect class="path-box" x="50" y="360" width="220" height="180" rx="5"/>
+  <text class="text-primary" x="160" y="385" text-anchor="middle">
+    <tspan x="160" dy="0" font-size="13" font-weight="bold">Functional Correctness Priority</tspan>
+    <tspan x="160" dy="20" font-size="12" class="text-highlight">Complete/Partial Prompt</tspan>
+  </text>
+  <text class="bullet-point" x="80" y="430">
+    <tspan x="80" dy="0">• Detailed Core Requirements</tspan>
+    <tspan x="80" dy="18">• Complete Constraints</tspan>
+    <tspan x="80" dy="18">• Clear I/O Specs</tspan>
+  </text>
+
+  <!-- R/M Path -->
+  <rect class="path-box" x="295" y="360" width="220" height="180" rx="5"/>
+  <text class="text-primary" x="405" y="385" text-anchor="middle">
+    <tspan x="405" dy="0" font-size="13" font-weight="bold">Code Quality Priority</tspan>
+    <tspan x="405" dy="20" font-size="12" class="text-highlight">Minimal/Partial Prompt</tspan>
+  </text>
+  <text class="bullet-point" x="315" y="430">
+    <tspan x="315" dy="0">• Concise Task Description</tspan>
+    <tspan x="315" dy="18">• Basic Functional Needs</tspan>
+    <tspan x="315" dy="18">• Avoid Excessive Detail</tspan>
+  </text>
+
+  <!-- HR Path -->
+  <rect class="path-box" x="540" y="360" width="220" height="180" rx="5"/>
+  <text class="text-primary" x="650" y="385" text-anchor="middle">
+    <tspan x="650" dy="0" font-size="13" font-weight="bold">Hallucination Control Priority</tspan>
+    <tspan x="650" dy="20" font-size="12" class="text-highlight">Complete/Partial Prompt</tspan>
+  </text>
+  <text class="bullet-point" x="560" y="430">
+    <tspan x="560" dy="0">• Clear Library Dependencies</tspan>
+    <!-- Line broken into two tspans -->
+    <tspan x="560" dy="18">• Specific Interface</tspan>
+    <tspan x="560" dy="18">  Definitions</tspan> 
+    <!-- End of broken line -->
+    <tspan x="560" dy="18">• Error Handling Specs</tspan>
+  </text>
+
+  <!-- CQS Path -->
+  <rect class="path-box" x="785" y="360" width="220" height="180" rx="5"/>
+  <text class="text-primary" x="895" y="385" text-anchor="middle">
+    <tspan x="895" dy="0" font-size="13" font-weight="bold">Balanced Composite Path</tspan>
+    <tspan x="895" dy="20" font-size="12" class="text-highlight">Partial Prompt + Iterative Refinement</tspan>
+  </text>
+  <text class="bullet-point" x="805" y="430">
+    <tspan x="805" dy="0">• Core Needs + Constraints</tspan>
+    <tspan x="805" dy="18">• Clear I/O + Examples</tspan>
+    <tspan x="805" dy="18">• Adjust Based on Results</tspan>
+  </text>
+
+  <!-- Feedback & Adjustment Loop -->
+  <rect class="feedback-box" x="320" y="610" width="350" height="90" rx="5"/>
+  <text class="text-primary" x="500" y="645" text-anchor="middle" font-size="14">
+    <tspan x="500" dy="0" font-weight="bold">Feedback & Adjustment Loop</tspan>
+    <tspan x="500" dy="25">Evaluate Results & Iterate Prompt Optimization</tspan>
+  </text>
+
+  <!-- Connection Lines -->
+  <path class="arrow" d="M500,180 L500,220" />
+  <path class="arrow" d="M500,320 L150,360" />
+  <path class="arrow" d="M500,320 L375,360" />
+  <path class="arrow" d="M500,320 L600,360" />
+  <path class="arrow" d="M500,320 L825,360" />
+  
+  <!-- Feedback Connection Lines -->
+  <path class="arrow" d="M150,540 L500,600" />
+  <path class="arrow" d="M375,540 L500,600" />
+  <path class="arrow" d="M600,540 L500,600" />
+  <path class="arrow" d="M825,540 L500,600" />
+</svg>

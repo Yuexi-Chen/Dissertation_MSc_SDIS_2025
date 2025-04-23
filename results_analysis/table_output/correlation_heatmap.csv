@@ -1,0 +1,7 @@
+Metric,Task Complexity,Language Impact,Prompt Completeness
+FC,-0.86,1.00,-0.26
+HR,0.90,0.63,-0.33
+R,0.03,0.33,-0.60
+M,0.05,0.06,-0.65
+RB,-0.05,0.12,-0.90
+S,-0.47,0.02,-0.05

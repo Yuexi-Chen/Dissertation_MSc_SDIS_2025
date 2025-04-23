@@ -1,0 +1,4 @@
+model,go,javascript,python,Average,Rank
+claude,42.83,53.92,47.5,48.08,1.0
+gpt,25.92,41.33,43.42,36.89,2.0
+gemini,13.67,45.75,38.27,32.56,3.0

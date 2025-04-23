@@ -1,0 +1,22 @@
+{
+  "task_1": {
+    "patient": "case['patient']",
+    "wards": "test_cases['wards']"
+  },
+  "task_2": {
+    "patient": "case['patient']",
+    "hospitals": "test_cases['hospitals']"
+  },
+  "task_3": {
+    "emergency_event": "case['emergency_event']",
+    "ambulances": "test_cases['ambulances']",
+    "hospitals": "test_cases['hospitals']",
+    "regions": "test_cases['regions']"
+  },
+  "task_4": {
+    "patients": "case['input']['patients']",
+    "resources": "case['input']['resources']",
+    "responders": "case['input']['responders']",
+    "total_time": "case['input']['total_time']"
+  }
+}

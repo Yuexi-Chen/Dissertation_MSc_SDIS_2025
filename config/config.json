@@ -1,0 +1,31 @@
+{
+  "task_names": [
+    "task_1",
+    "task_2",
+    "task_3",
+    "task_4"
+  ],
+  "languages": [
+    "python",
+    "javascript",
+    "go"
+    
+  ],
+  "api_endpoints": {
+    "gpt": "YOUR_GPT_API_KEY",
+    "claude": "YOUR_CLAUDE_API_KEY",
+    "gemini": "YOUR_GEMINI_API_KEY"
+  },
+  "prompt_templates": {
+    "languages_path": "prompt_templates/languages",
+    "tasks_path": "prompt_templates/tasks",
+    "completeness_levels": [
+      "complete",
+      "partial",
+      "minimal"
+    ]
+  },
+  "folders": {
+    "results": "results"
+  }
+}

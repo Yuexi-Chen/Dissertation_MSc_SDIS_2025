@@ -1,0 +1,60 @@
+{
+    "task_id": "task_1",
+    "completeness": "minimal",
+    "code_generation_instruction": "Return ONLY the code implementation without any explanation or markdown formatting.",
+    "description": "Hospital Bed Allocation Function",
+    "task_description": "Implement a function that assigns hospital beds to patients based on matching criteria and bed availability, following a specific allocation priority order.",
+    "implementation_requirements": [
+        "1. Input/Output Requirements:",
+        "   a. Do NOT modify the input data structures",
+        "   b. Always return a complete object with the four fields (patient_id, assigned_ward, assigned_bed, assigned_satellite_hospital)",
+        "   c. When no assignment is possible, return fields as null but maintain the object structure",
+        "   d. Follow the exact output format shown in the examples",
+        
+        "2. Algorithm:",
+        "   a. Patient-Ward Matching:",
+        "      - Evaluate each ward against all patient attributes",
+        "      - Match only wards meeting ALL criteria: condition, gender, age, special requirements",
+        "      - Process matching wards in the exact order they appear in input list",
+        "   b. Bed Allocation (try each step in order):",
+        "      - Step 1: REGULAR BEDS - Find available regular beds in matching wards",
+        "        * Assign lowest numbered available bed if found",
+        "      - Step 2: OVERFLOW BEDS - If no regular beds, use overflow capacity",
+        "        * Number as 'Overflow-1', 'Overflow-2', etc. per ward",
+        "      - Step 3: SATELLITE HOSPITALS - If no overflow beds, try satellite hospitals",
+        "        * Assign first available hospital in list",
+        "        * Set assigned_ward and assigned_bed to null",
+        "      - Step 4: NO ASSIGNMENT - Return null values if no options available"
+    ],
+    "examples": [
+        {
+            "description": "Example 1: Regular bed assignment",
+            "input": {
+                "patient": {
+                    "id": "P001",
+                    "gender": "Male",
+                    "age": 46,
+                    "condition": "Orthopedic Surgery Recovery",
+                    "special_requirements": ["Mobility Aids"]
+                },
+                "wards": [{
+                    "ward_name": "Orthopedic Male Ward",
+                    "gender_restriction": "Male Only",
+                    "age_restriction": [16, 120],
+                    "target_condition": "Orthopedic Surgery Recovery",
+                    "special_requirements": ["Mobility Aids"],
+                    "available_beds": [3, 4],
+                    "overflow_capacity": 2,
+                    "satellite_hospitals": ["St. John's Hospital"]
+                }]
+            },
+            "output": {
+                "patient_id": "P001",
+                "assigned_ward": "Orthopedic Male Ward",
+                "assigned_bed": 3,
+                "assigned_satellite_hospital": null
+            }
+        }
+    ],
+    "expected_output_fields": ["patient_id", "assigned_ward", "assigned_bed", "assigned_satellite_hospital"]
+}

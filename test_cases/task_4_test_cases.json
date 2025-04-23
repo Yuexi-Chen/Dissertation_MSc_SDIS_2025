@@ -1,0 +1,254 @@
+{
+  "test_cases": [
+    {
+      "test_case": 1,
+      "test_description": "[Basic] Simple resource allocation with two patients and one responder",
+      "input": {
+        "patients": [
+          [90, 70, 50, 30, 10, 0],
+          [80, 70, 60, 50, 30, 10]
+        ],
+        "resources": [
+          {"time": 1, "boost": 20},
+          {"time": 2, "boost": 40}
+        ],
+        "responders": 1,
+        "total_time": 3
+      },
+      "expected_result": {
+        "assignments": [
+          {"patient": 0, "resource": 1, "time": 0},
+          {"patient": 1, "resource": 0, "time": 2}
+        ],
+        "survivors": 1,
+        "total_survival_probability": 110
+      }
+    },
+    {
+      "test_case": 2,
+      "test_description": "[Basic] Multiple patients with multiple responders",
+      "input": {
+        "patients": [
+          [95, 80, 60, 40, 20, 5],
+          [70, 65, 60, 55, 45, 35],
+          [90, 60, 30, 10, 0, 0],
+          [40, 35, 30, 25, 20, 15]
+        ],
+        "resources": [
+          {"time": 1, "boost": 15},
+          {"time": 2, "boost": 30},
+          {"time": 3, "boost": 50}
+        ],
+        "responders": 2,
+        "total_time": 5
+      },
+      "expected_result": {
+        "assignments": [
+          {"patient": 0, "resource": 1, "time": 0},
+          {"patient": 2, "resource": 2, "time": 0},
+          {"patient": 1, "resource": 0, "time": 2},
+          {"patient": 0, "resource": 0, "time": 3}
+        ],
+        "survivors": 0,
+        "total_survival_probability": 100
+      }
+    },
+    {
+      "test_case": 3,
+      "test_description": "[Basic] All patients can be treated with ample resources",
+      "input": {
+        "patients": [
+          [85, 75, 65, 55],
+          [80, 70, 60, 50],
+          [75, 65, 55, 45]
+        ],
+        "resources": [
+          {"time": 1, "boost": 10}
+        ],
+        "responders": 3,
+        "total_time": 3
+      },
+      "expected_result": {
+        "assignments": [
+          {"patient": 0, "resource": 0, "time": 0},
+          {"patient": 1, "resource": 0, "time": 0},
+          {"patient": 2, "resource": 0, "time": 0}
+        ],
+        "survivors": 3,
+        "total_survival_probability": 180
+      }
+    },
+    {
+      "test_case": 4,
+      "test_description": "[Edge] Insufficient resources to treat all patients",
+      "input": {
+        "patients": [
+          [80, 70, 60, 50, 40],
+          [75, 65, 55, 45, 35],
+          [90, 80, 70, 60, 50],
+          [85, 75, 65, 55, 45]
+        ],
+        "resources": [
+          {"time": 1, "boost": 15}
+        ],
+        "responders": 1,
+        "total_time": 3
+      },
+      "expected_result": {
+        "assignments": [
+          {"patient": 2, "resource": 0, "time": 0},
+          {"patient": 0, "resource": 0, "time": 1},
+          {"patient": 3, "resource": 0, "time": 2}
+        ],
+        "survivors": 3,
+        "total_survival_probability": 250
+      }
+    },
+    {
+      "test_case": 5,
+      "test_description": "[Edge] Critical patient requires multiple treatments",
+      "input": {
+        "patients": [
+          [60, 40, 20, 0, 0],
+          [80, 70, 60, 50, 40]
+        ],
+        "resources": [
+          {"time": 1, "boost": 15},
+          {"time": 1, "boost": 20}
+        ],
+        "responders": 1,
+        "total_time": 3
+      },
+      "expected_result": {
+        "assignments": [
+          {"patient": 0, "resource": 1, "time": 0},
+          {"patient": 0, "resource": 0, "time": 1},
+          {"patient": 1, "resource": 0, "time": 2}
+        ],
+        "survivors": 1,
+        "total_survival_probability": 100
+      }
+    },
+    {
+      "test_case": 6,
+      "test_description": "[Edge] Patient at critical threshold (near 50%)",
+      "input": {
+        "patients": [
+          [60, 45, 30, 15],
+          [55, 52, 49, 46],
+          [70, 65, 60, 55]
+        ],
+        "resources": [
+          {"time": 1, "boost": 5}
+        ],
+        "responders": 1,
+        "total_time": 2
+      },
+      "expected_result": {
+        "assignments": [
+          {"patient": 1, "resource": 0, "time": 0},
+          {"patient": 0, "resource": 0, "time": 1}
+        ],
+        "survivors": 2,
+        "total_survival_probability": 149
+      }
+    },
+    {
+      "test_case": 7,
+      "test_description": "[Edge] Some patients cannot be saved even with all resources",
+      "input": {
+        "patients": [
+          [30, 20, 10, 0],
+          [40, 30, 20, 10],
+          [80, 70, 60, 50]
+        ],
+        "resources": [
+          {"time": 1, "boost": 15}
+        ],
+        "responders": 1,
+        "total_time": 3
+      },
+      "expected_result": {
+        "assignments": [
+          {"patient": 2, "resource": 0, "time": 0},
+          {"patient": 1, "resource": 0, "time": 1}
+        ],
+        "survivors": 1,
+        "total_survival_probability": 90
+      }
+    },
+    {
+      "test_case": 8,
+      "test_description": "[Edge] Limited time prevents using all resources",
+      "input": {
+        "patients": [
+          [90, 80, 70],
+          [85, 75, 65],
+          [80, 70, 60]
+        ],
+        "resources": [
+          {"time": 2, "boost": 20},
+          {"time": 3, "boost": 30}
+        ],
+        "responders": 2,
+        "total_time": 2
+      },
+      "expected_result": {
+        "assignments": [
+          {"patient": 0, "resource": 0, "time": 0},
+          {"patient": 1, "resource": 0, "time": 0}
+        ],
+        "survivors": 3,
+        "total_survival_probability": 220
+      }
+    },
+    {
+      "test_case": 9,
+      "test_description": "[Edge] Resources with different effectiveness-to-time ratios",
+      "input": {
+        "patients": [
+          [70, 60, 50, 40, 30, 20, 10],
+          [75, 65, 55, 45, 35, 25, 15],
+          [65, 55, 45, 35, 25, 15, 5]
+        ],
+        "resources": [
+          {"time": 1, "boost": 10},
+          {"time": 2, "boost": 25},
+          {"time": 3, "boost": 30}
+        ],
+        "responders": 1,
+        "total_time": 5
+      },
+      "expected_result": {
+        "assignments": [
+          {"patient": 1, "resource": 1, "time": 0},
+          {"patient": 0, "resource": 0, "time": 2},
+          {"patient": 2, "resource": 0, "time": 3},
+          {"patient": 0, "resource": 0, "time": 4}
+        ],
+        "survivors": 0,
+        "total_survival_probability": 115
+      }
+    },
+    {
+      "test_case": 10,
+      "test_description": "[Edge] No viable treatments (empty assignments)",
+      "input": {
+        "patients": [
+          [30, 15, 0],
+          [25, 10, 0]
+        ],
+        "resources": [
+          {"time": 2, "boost": 15}
+        ],
+        "responders": 1,
+        "total_time": 2
+      },
+      "expected_result": {
+        "assignments": [],
+        "survivors": 0,
+        "total_survival_probability": 0
+      }
+    }
+  ]
+}

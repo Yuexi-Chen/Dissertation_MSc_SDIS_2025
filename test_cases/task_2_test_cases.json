@@ -1,0 +1,334 @@
+{
+  "hospitals": [
+    {
+      "id": "H1",
+      "model": 4,
+      "wards": [
+        {
+          "ward_name": "Surgical Recovery Ward",
+          "gender_restriction": "No Restriction",
+          "age_restriction": [18, 80],
+          "special_requirements": ["Intensive Monitoring"],
+          "available_beds": [],
+          "current_patients": [
+            {
+              "id": "P101",
+              "gender": "Female",
+              "age": 65,
+              "condition": "Post-Surgery Recovery",
+              "days_in_hospital": 5,
+              "bed_number": 1,
+              "non_transferable": false
+            },
+            {
+              "id": "P102",
+              "gender": "Male",
+              "age": 70,
+              "condition": "Critical Care",
+              "days_in_hospital": 2,
+              "bed_number": 2,
+              "non_transferable": true
+            },
+            {
+              "id": "P103",
+              "gender": "Male",
+              "age": 55,
+              "condition": "Post-Surgery Recovery",
+              "days_in_hospital": 7,
+              "bed_number": 3,
+              "non_transferable": false
+            },
+            {
+              "id": "P104",
+              "gender": "Female",
+              "age": 72,
+              "condition": "Post-Surgery Recovery",
+              "days_in_hospital": 4,
+              "bed_number": 4,
+              "non_transferable": false
+            },
+            {
+              "id": "P105",
+              "gender": "Female",
+              "age": 75,
+              "condition": "Heart Condition",
+              "days_in_hospital": 6,
+              "bed_number": 5,
+              "non_transferable": false,
+              "special_requirements": ["Cardiac Monitoring"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "model": 3,
+      "wards": [
+        {
+          "ward_name": "Medical Ward",
+          "gender_restriction": "No Restriction",
+          "age_restriction": [16, 90],
+          "special_requirements": ["Respiratory Support"],
+          "available_beds": [1, 2],
+          "current_patients": []
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "model": 2,
+      "wards": [
+        {
+          "ward_name": "General Ward",
+          "gender_restriction": "Female Only",
+          "age_restriction": [18, 85],
+          "special_requirements": [],
+          "available_beds": [1, 2, 3],
+          "current_patients": []
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "model": 2,
+      "wards": [
+        {
+          "ward_name": "Recovery Ward",
+          "gender_restriction": "No Restriction",
+          "age_restriction": [18, 65],
+          "special_requirements": ["Pain Management"],
+          "available_beds": [1],
+          "current_patients": []
+        }
+      ]
+    }
+  ],
+  "test_cases": [
+    {
+      "test_case": 1,
+      "test_description": "[Basic] High-risk patient requires reallocation of female patient to female-only ward",
+      "patient": {
+        "id": "P001",
+        "gender": "Male",
+        "age": 46,
+        "condition": "Post-Surgery Recovery",
+        "special_requirements": ["Intensive Monitoring"],
+        "is_post_surgery": true
+      },
+      "expected_result": {
+        "patient_id": "P001",
+        "assigned_hospital": "H1",
+        "assigned_ward": "Surgical Recovery Ward",
+        "assigned_bed": 1,
+        "reallocated_patients": [
+          {
+            "patient_id": "P101",
+            "new_hospital": "H3",
+            "new_ward": "General Ward",
+            "new_bed": 1
+          }
+        ]
+      }
+    },
+    {
+      "test_case": 2,
+      "test_description": "[Basic] Female patient assignment to appropriate level hospital with gender restriction",
+      "patient": {
+        "id": "P002",
+        "gender": "Female",
+        "age": 35,
+        "condition": "General Care",
+        "special_requirements": [],
+        "is_post_surgery": false
+      },
+      "expected_result": {
+        "patient_id": "P002",
+        "assigned_hospital": "H3",
+        "assigned_ward": "General Ward",
+        "assigned_bed": 1,
+        "reallocated_patients": []
+      }
+    },
+    {
+      "test_case": 3,
+      "test_description": "[Basic] Patient with respiratory needs assigned to appropriate ward",
+      "patient": {
+        "id": "P003",
+        "gender": "Male",
+        "age": 65,
+        "condition": "Respiratory Condition",
+        "special_requirements": ["Respiratory Support"],
+        "is_post_surgery": false
+      },
+      "expected_result": {
+        "patient_id": "P003",
+        "assigned_hospital": "H2",
+        "assigned_ward": "Medical Ward",
+        "assigned_bed": 1,
+        "reallocated_patients": []
+      }
+    },
+    {
+      "test_case": 4,
+      "test_description": "[Edge] Limited reallocation options - bed with non-transferable patient",
+      "patient": {
+        "id": "P004",
+        "gender": "Male",
+        "age": 60,
+        "condition": "Post-Surgery Recovery",
+        "special_requirements": ["Intensive Monitoring"],
+        "is_post_surgery": true
+      },
+      "expected_result": {
+        "patient_id": "P004",
+        "assigned_hospital": "H1",
+        "assigned_ward": "Surgical Recovery Ward",
+        "assigned_bed": 3,
+        "reallocated_patients": [
+          {
+            "patient_id": "P103",
+            "new_hospital": "H4",
+            "new_ward": "Recovery Ward",
+            "new_bed": 1
+          }
+        ]
+      }
+    },
+    {
+      "test_case": 5,
+      "test_description": "[Edge] Patient with special requirements that no ward can fulfill",
+      "patient": {
+        "id": "P005",
+        "gender": "Female",
+        "age": 50,
+        "condition": "Post-Surgery Recovery",
+        "special_requirements": ["Dialysis", "Isolation"],
+        "is_post_surgery": true
+      },
+      "expected_result": {
+        "patient_id": "P005",
+        "assigned_hospital": null,
+        "assigned_ward": null,
+        "assigned_bed": null,
+        "reallocated_patients": []
+      }
+    },
+    {
+      "test_case": 6,
+      "test_description": "[Edge] Patient age outside of ward restrictions",
+      "patient": {
+        "id": "P006",
+        "gender": "Male",
+        "age": 95,
+        "condition": "Post-Surgery Recovery",
+        "special_requirements": ["Intensive Monitoring"],
+        "is_post_surgery": true
+      },
+      "expected_result": {
+        "patient_id": "P006",
+        "assigned_hospital": null,
+        "assigned_ward": null,
+        "assigned_bed": null,
+        "reallocated_patients": []
+      }
+    },
+    {
+      "test_case": 7,
+      "test_description": "[Edge] Multiple reallocation options, prioritize patient with highest days_in_hospital",
+      "patient": {
+        "id": "P007",
+        "gender": "Male",
+        "age": 45,
+        "condition": "Post-Surgery Recovery",
+        "special_requirements": ["Intensive Monitoring"],
+        "is_post_surgery": true
+      },
+      "expected_result": {
+        "patient_id": "P007",
+        "assigned_hospital": "H1",
+        "assigned_ward": "Surgical Recovery Ward",
+        "assigned_bed": 3,
+        "reallocated_patients": [
+          {
+            "patient_id": "P103",
+            "new_hospital": "H4",
+            "new_ward": "Recovery Ward",
+            "new_bed": 1
+          }
+        ]
+      }
+    },
+    {
+      "test_case": 8,
+      "test_description": "[Basic] Direct bed assignment for high-risk female patient",
+      "patient": {
+        "id": "P008",
+        "gender": "Female",
+        "age": 40,
+        "condition": "Post-Surgery Recovery",
+        "special_requirements": ["Intensive Monitoring"],
+        "is_post_surgery": true
+      },
+      "expected_result": {
+        "patient_id": "P008",
+        "assigned_hospital": "H1",
+        "assigned_ward": "Surgical Recovery Ward",
+        "assigned_bed": 5,
+        "reallocated_patients": [
+          {
+            "patient_id": "P105",
+            "new_hospital": "H3",
+            "new_ward": "General Ward",
+            "new_bed": 3
+          }
+        ]
+      }
+    },
+    {
+      "test_case": 9,
+      "test_description": "[Edge] Female patient can be transferred despite gender restrictions",
+      "patient": {
+        "id": "P009",
+        "gender": "Female",
+        "age": 42,
+        "condition": "Post-Surgery Recovery",
+        "special_requirements": ["Intensive Monitoring"],
+        "is_post_surgery": true
+      },
+      "expected_result": {
+        "patient_id": "P009",
+        "assigned_hospital": "H1",
+        "assigned_ward": "Surgical Recovery Ward",
+        "assigned_bed": 4,
+        "reallocated_patients": [
+          {
+            "patient_id": "P104",
+            "new_hospital": "H3",
+            "new_ward": "General Ward",
+            "new_bed": 1
+          }
+        ]
+      }
+    },
+    {
+      "test_case": 10,
+      "test_description": "[Edge] Special requirements blocking patient transfer to any available hospital",
+      "patient": {
+        "id": "P010",
+        "gender": "Male",
+        "age": 45,
+        "condition": "Heart Condition",
+        "special_requirements": ["Cardiac Monitoring", "Intensive Monitoring"],
+        "is_post_surgery": true
+      },
+      "expected_result": {
+        "patient_id": "P010",
+        "assigned_hospital": null,
+        "assigned_ward": null,
+        "assigned_bed": null,
+        "reallocated_patients": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+google-generativeai
+openai
+anthropic
+requests
+jsonlines
+psutil

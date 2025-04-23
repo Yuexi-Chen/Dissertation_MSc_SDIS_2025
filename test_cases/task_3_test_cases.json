@@ -1,0 +1,335 @@
+{
+  "regions": [
+    {
+      "region_id": "R1",
+      "type": "Urban",
+      "speed": 30,
+      "distances": {
+        "R2": 5,
+        "R3": 7,
+        "R4": 6,
+        "R5": 3,
+        "R6": 20,
+        "R7": 15
+      },
+      "congestion_factor": 0.5,
+      "blocked_routes": []
+    },
+    {
+      "region_id": "R2",
+      "type": "Suburban",
+      "speed": 50,
+      "distances": {
+        "R1": 5,
+        "R3": 8,
+        "R4": 2,
+        "R5": 7,
+        "R6": 25,
+        "R7": 10
+      },
+      "congestion_factor": 1.0,
+      "blocked_routes": []
+    },
+    {
+      "region_id": "R3",
+      "type": "Suburban",
+      "speed": 50,
+      "distances": {
+        "R1": 7,
+        "R2": 8,
+        "R4": 9,
+        "R5": 10,
+        "R6": 25,
+        "R7": 20
+      },
+      "congestion_factor": 1.0,
+      "blocked_routes": ["R4"]
+    },
+    {
+      "region_id": "R4",
+      "type": "Suburban",
+      "speed": 50, 
+      "distances": {
+        "R1": 6,
+        "R2": 2,
+        "R3": 9,
+        "R5": 8,
+        "R6": 22,
+        "R7": 8
+      },
+      "congestion_factor": 1.0,
+      "blocked_routes": ["R3"]
+    },
+    {
+      "region_id": "R5",
+      "type": "Urban",
+      "speed": 30,
+      "distances": {
+        "R1": 3,
+        "R2": 7,
+        "R3": 10,
+        "R4": 8,
+        "R6": 18,
+        "R7": 17
+      },
+      "congestion_factor": 0.7,
+      "blocked_routes": []
+    },
+    {
+      "region_id": "R6",
+      "type": "Rural",
+      "speed": 80,
+      "distances": {
+        "R1": 20,
+        "R2": 25,
+        "R3": 25,
+        "R4": 22,
+        "R5": 18,
+        "R7": 30
+      },
+      "congestion_factor": 1.0,
+      "blocked_routes": []
+    },
+    {
+      "region_id": "R7",
+      "type": "Rural",
+      "speed": 80,
+      "distances": {
+        "R1": 15,
+        "R2": 10,
+        "R3": 20,
+        "R4": 8,
+        "R5": 17,
+        "R6": 30
+      },
+      "congestion_factor": 1.0,
+      "blocked_routes": []
+    }
+  ],
+  "hospitals": [
+    {
+      "id": "H1",
+      "region_id": "R2",
+      "capabilities": ["Trauma Center", "Cardiac Center", "Stroke Unit"],
+      "emergency_capacity": "High"
+    },
+    {
+      "id": "H2",
+      "region_id": "R1",
+      "capabilities": ["General Emergency", "Minor Injuries"],
+      "emergency_capacity": "Medium"
+    },
+    {
+      "id": "H3",
+      "region_id": "R5",
+      "capabilities": ["General Emergency", "Orthopedics"],
+      "emergency_capacity": "Medium"
+    },
+    {
+      "id": "H4",
+      "region_id": "R6",
+      "capabilities": ["General Emergency"],
+      "emergency_capacity": "Low"
+    }
+  ],
+  "ambulances": [
+    {
+      "id": "A1",
+      "capabilities": ["Cardiac Support", "Trauma Care", "Defibrillator"],
+      "current_region": "R1",
+      "status": "Available"
+    },
+    {
+      "id": "A2",
+      "capabilities": ["Basic Emergency Care", "First Aid"],
+      "current_region": "R2",
+      "status": "Dispatched"
+    },
+    {
+      "id": "A3",
+      "capabilities": ["Cardiac Support", "Trauma Care", "Defibrillator"],
+      "current_region": "R3",
+      "status": "Available"
+    },
+    {
+      "id": "A4",
+      "capabilities": ["Basic Care", "Patient Transfer"],
+      "current_region": "R4",
+      "status": "Dispatched"
+    },
+    {
+      "id": "A5",
+      "capabilities": ["Basic Emergency Care", "Defibrillator"],
+      "current_region": "R5",
+      "status": "Available"
+    },
+    {
+      "id": "A6",
+      "capabilities": ["Cardiac Support", "Trauma Care", "Defibrillator"],
+      "current_region": "R6",
+      "status": "Available"
+    }
+  ],
+  "test_cases": [
+    {
+      "test_case": 1,
+      "test_description": "[Basic] Critical cardiac emergency requiring advanced life support",
+      "emergency_event": {
+        "id": "E001",
+        "region_id": "R1",
+        "severity": "Critical",
+        "type": "Cardiac",
+        "special_requirements": ["Advanced Life Support", "Defibrillator"]
+      },
+      "expected_result": {
+        "emergency_id": "E001",
+        "assigned_ambulance": "A1",
+        "destination_hospital": "H1"
+      }
+    },
+    {
+      "test_case": 2,
+      "test_description": "[Basic] Trauma case in suburban area requiring closest ambulance",
+      "emergency_event": {
+        "id": "E002",
+        "region_id": "R4",
+        "severity": "Urgent",
+        "type": "Trauma",
+        "special_requirements": ["Trauma Care"]
+      },
+      "expected_result": {
+        "emergency_id": "E002",
+        "assigned_ambulance": "A3",
+        "destination_hospital": "H1"
+      }
+    },
+    {
+      "test_case": 3,
+      "test_description": "[Edge] Standard medical emergency with road blockage",
+      "emergency_event": {
+        "id": "E003",
+        "region_id": "R3",
+        "severity": "Standard",
+        "type": "Medical",
+        "special_requirements": []
+      },
+      "expected_result": {
+        "emergency_id": "E003",
+        "assigned_ambulance": "A3",
+        "destination_hospital": "H1"
+      }
+    },
+    {
+      "test_case": 4,
+      "test_description": "[Edge] Ambulance in congested area responding to rural emergency",
+      "emergency_event": {
+        "id": "E004",
+        "region_id": "R6",
+        "severity": "Urgent",
+        "type": "Injury",
+        "special_requirements": []
+      },
+      "expected_result": {
+        "emergency_id": "E004",
+        "assigned_ambulance": "A6",
+        "destination_hospital": "H4"
+      }
+    },
+    {
+      "test_case": 5,
+      "test_description": "[Edge] Minor injury case with all nearby ambulances busy",
+      "emergency_event": {
+        "id": "E005",
+        "region_id": "R5",
+        "severity": "Standard",
+        "type": "Minor Injury",
+        "special_requirements": []
+      },
+      "expected_result": {
+        "emergency_id": "E005",
+        "assigned_ambulance": "A5",
+        "destination_hospital": "H3"
+      }
+    },
+    {
+      "test_case": 6,
+      "test_description": "[Edge] Critical emergency with hospital capacity constraints",
+      "emergency_event": {
+        "id": "E006",
+        "region_id": "R2",
+        "severity": "Critical",
+        "type": "Cardiac",
+        "special_requirements": ["Cardiac Support"]
+      },
+      "expected_result": {
+        "emergency_id": "E006",
+        "assigned_ambulance": "A3",
+        "destination_hospital": "H1"
+      }
+    },
+    {
+      "test_case": 7,
+      "test_description": "[Basic] Case requiring specific hospital capabilities",
+      "emergency_event": {
+        "id": "E007",
+        "region_id": "R4",
+        "severity": "Urgent",
+        "type": "Orthopedic",
+        "special_requirements": ["Orthopedic Care"]
+      },
+      "expected_result": {
+        "emergency_id": "E007",
+        "assigned_ambulance": "A3",
+        "destination_hospital": "H3"
+      }
+    },
+    {
+      "test_case": 8,
+      "test_description": "[Edge] No suitable ambulances available for emergency",
+      "emergency_event": {
+        "id": "E008",
+        "region_id": "R1",
+        "severity": "Standard",
+        "type": "Medical",
+        "special_requirements": ["Specialized Equipment"]
+      },
+      "expected_result": {
+        "emergency_id": "E008",
+        "assigned_ambulance": null,
+        "destination_hospital": null
+      }
+    },
+    {
+      "test_case": 9,
+      "test_description": "[Edge] Emergency in congested area with blocked route to nearest hospital",
+      "emergency_event": {
+        "id": "E009",
+        "region_id": "R3",
+        "severity": "Urgent",
+        "type": "Trauma",
+        "special_requirements": ["Trauma Care"]
+      },
+      "expected_result": {
+        "emergency_id": "E009",
+        "assigned_ambulance": "A3",
+        "destination_hospital": "H1"
+      }
+    },
+    {
+      "test_case": 10,
+      "test_description": "[Edge] Rural emergency with long distances to all hospitals",
+      "emergency_event": {
+        "id": "E010",
+        "region_id": "R7",
+        "severity": "Critical",
+        "type": "Cardiac",
+        "special_requirements": ["Cardiac Support", "Defibrillator"]
+      },
+      "expected_result": {
+        "emergency_id": "E010",
+        "assigned_ambulance": "A3",
+        "destination_hospital": "H1"
+      }
+    }
+  ]
+} 

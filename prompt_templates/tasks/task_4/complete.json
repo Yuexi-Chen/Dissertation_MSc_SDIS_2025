@@ -1,0 +1,116 @@
+{
+  "task_id": "task_4",
+  "completeness": "complete",
+  "code_generation_instruction": "Return ONLY the code implementation without any explanation or markdown formatting.",
+  "description": "Implement a medical resource allocation system for emergency triage that optimizes the number of patients saved by correctly prioritizing limited medical resources based on patient survival probability curves.",
+  "implementation_requirements": [
+    "1. Input/Output Requirements:",
+    "   a. Input Format:",
+    "      - patients: Array of arrays, where each inner array contains the survival probability curve for a patient",
+    "      - resources: Array of objects, each containing a 'time' (time required to apply) and 'boost' (probability increase)",
+    "      - responders: Number of available responders (each can apply one resource at a time)",
+    "      - total_time: Maximum time available for all treatments",
+    "   b. Output Format:",
+    "      - Return a complete object with the following properties:",
+    "        * assignments: Array of objects, each specifying a treatment {patient, resource, time}",
+    "        * survivors: Number of patients with final probability > 50%",
+    "        * total_survival_probability: Sum of all patients' final probabilities",
+    "   c. Constraints:",
+    "      - Do NOT modify the input data structures",
+    "      - When no assignment is possible, return assignments as empty array but maintain object structure",
+    "      - Follow the exact output format shown in the examples",
+    
+    "2. Algorithm Implementation (Resource Optimization):",
+    "   a. Problem Definition:",
+    "      - Each patient has a survival probability curve that decreases over time",
+    "      - Patient arrays represent survival probabilities at each minute (index 0 = minute 0, index 1 = minute 1, etc.)",
+    "      - Each medical resource takes time to apply and boosts survival probability",
+    "      - Responders can only apply one resource at a time (one responder can only treat one patient at any given time)",
+    "      - The goal is to maximize total survivors within the time constraint",
+    
+    "   b. Core Algorithm Steps:",
+    "      - Step 1: Calculate each patient's survival probability at each possible treatment time",
+    "        * Apply resource boost to the base probability and calculate final probability",
+    "        * Account for probability decay while waiting for treatment",
+    "      - Step 2: Implement a priority-based scheduling algorithm",
+    "        * Use dynamic programming to find optimal resource-patient assignments",
+    "        * Track responder availability over time (a responder becomes available after completing a treatment)",
+    "        * Consider all possible resource combinations for each patient",
+    "      - Step 3: Resolve conflicting resource demands",
+    "        * A conflict occurs when multiple optimal treatments require the same responder at the same time",
+    "        * Prioritize treatments that maximize total survival probability",
+    "        * Consider sequential treatments for critical patients",
+    
+    "   c. Calculation Rules:",
+    "      - Individual Patient Probability Calculation:",
+    "        * When a resource is applied at time t, the starting probability is the patient's probability at time t",
+    "        * The resource's boost value is then added to this starting probability",
+    "        * A patient's final probability after treatment(s) cannot exceed 100%",
+    "        * If a patient receives multiple treatments, each subsequent treatment uses the probability after the previous treatment",
+    "        * A patient is considered a survivor if their final probability > 50%",
+    "      - Total Survival Probability Calculation:",
+    "        * The total survival probability is the sum of all patients' final probabilities after all treatments",
+    "        * This total may exceed 100% as it represents the combined probability across multiple patients",
+    "        * This is an aggregate measure used to compare different allocation strategies",
+    
+    "   d. Edge Case Handling:",
+    "      - Patients with zero probability at treatment time cannot be saved",
+    "      - Resources must be applied within the total_time constraint",
+    "      - Treatments cannot overlap (one responder cannot apply multiple resources simultaneously)",
+    "      - If multiple optimal assignments exist, choose the one with highest total survival probability"
+  ],
+  "examples": [
+    {
+      "example_name": "Example 1: Simple Resource Allocation",
+      "description": "Basic case with two patients and limited resources",
+      "input": {
+        "patients": [
+          [90, 70, 50, 30, 10, 0],
+          [80, 70, 60, 50, 30, 10]
+        ],
+        "resources": [
+          {"time": 1, "boost": 20},
+          {"time": 2, "boost": 40}
+        ],
+        "responders": 1,
+        "total_time": 3
+      },
+      "output": {
+        "assignments": [
+          {"patient": 0, "resource": 1, "time": 0},
+          {"patient": 1, "resource": 0, "time": 2}
+        ],
+        "survivors": 1,
+        "total_survival_probability": 110
+      }
+    },
+    {
+      "example_name": "Example 2: Complex Multi-Resource Case",
+      "description": "Multiple patients and resources with priority conflicts",
+      "input": {
+        "patients": [
+          [60, 40, 20, 10, 0],
+          [70, 60, 40, 20, 10],
+          [30, 20, 10, 5, 0]
+        ],
+        "resources": [
+          {"time": 1, "boost": 15},
+          {"time": 2, "boost": 30},
+          {"time": 1, "boost": 25}
+        ],
+        "responders": 2,
+        "total_time": 4
+      },
+      "output": {
+        "assignments": [
+          {"patient": 0, "resource": 2, "time": 0},
+          {"patient": 1, "resource": 1, "time": 0},
+          {"patient": 2, "resource": 0, "time": 2}
+        ],
+        "survivors": 2,
+        "total_survival_probability": 150
+      }
+    }
+  ],
+  "expected_output_fields": ["assignments", "survivors", "total_survival_probability"]
+} 

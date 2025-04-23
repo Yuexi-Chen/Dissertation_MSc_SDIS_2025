@@ -1,0 +1,103 @@
+<svg width="900" height="680" xmlns="http://www.w3.org/2000/svg">
+  
+  <style>
+    .task-box { fill: #f8f9fa; stroke: #0077c2; stroke-width: 2; }
+    .highlight-box { fill: #e3f2fd; }
+    .challenge-box { fill: #ffebee; }
+    .arrow { stroke: #666; stroke-width: 1.5; marker-end: url(#arrowhead); }
+    .text-label { font-family: Arial; font-size: 12px; }
+    .finding-box { fill: #fff3e0; stroke: #ff9800; stroke-width: 1; }
+    .connection-line { stroke: #90a4ae; stroke-width: 1; stroke-dasharray: 4,4; }
+  </style>
+
+  
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+    refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+
+  
+  <text x="450" y="30" text-anchor="middle" font-size="16" font-weight="bold">
+    Analysis of Correlation between Medical Task Characteristics and Model Performance
+  </text>
+
+  
+  <g transform="translate(50,60)">
+    <!-- Task 1 -->
+    <rect class="task-box highlight-box" x="0" y="0" width="320" height="110" rx="5"/>
+    <text class="text-label" x="10" y="25">
+      <tspan x="10" dy="0" font-weight="bold">Task 1: Basic Constraint Matching</tspan>
+      <tspan x="10" dy="20">• Condition Matching (Gender, Age, Requirements)</tspan>
+      <tspan x="10" dy="20">• Simple Priority Handling</tspan>
+      <tspan x="10" dy="20">• Linear Decision Path</tspan>
+      <tspan x="10" dy="20" fill="#0077c2">✓ Typical Example of Static Constraint Handling</tspan>
+    </text>
+
+    <!-- Task 2 -->
+    <rect class="task-box" x="0" y="130" width="320" height="120" rx="5"/>
+    <text class="text-label" x="10" y="155">
+      <tspan x="10" dy="0" font-weight="bold">Task 2: Dynamic Resource Reallocation</tspan>
+      <tspan x="10" dy="20">• Multi-level Decision Making</tspan>
+      <tspan x="10" dy="20">• State-dependent Judgment</tspan>
+      <tspan x="10" dy="20" fill="#d32f2f">! Critical Point of Complexity Threshold</tspan>
+    </text>
+
+    <!-- Task 3 -->
+    <rect class="task-box challenge-box" x="0" y="270" width="320" height="120" rx="5"/>
+    <text class="text-label" x="10" y="295">
+      <tspan x="10" dy="0" font-weight="bold">Task 3: Path Optimization</tspan>
+      <tspan x="10" dy="20">• Graph Algorithm Application (Dijkstra)</tspan>
+      <tspan x="10" dy="20">• Dynamic Weight Update</tspan>
+      <tspan x="10" dy="20">• Multi-objective Optimization</tspan>
+      <tspan x="10" dy="20" fill="#d32f2f">! Algorithm Implementation Bottleneck Evident</tspan>
+    </text>
+
+    <!-- Task 4 -->
+    <rect class="task-box challenge-box" x="0" y="410" width="320" height="120" rx="5"/>
+    <text class="text-label" x="10" y="435">
+      <tspan x="10" dy="0" font-weight="bold">Task 4: Probabilistic Optimization</tspan>
+      <tspan x="10" dy="20">• Time-varying Survival Probability</tspan>
+      <tspan x="10" dy="20">• Resource Temporal Planning</tspan>
+      <tspan x="10" dy="20">• Multi-objective Probabilistic Optimization</tspan>
+      <tspan x="10" dy="20" fill="#d32f2f">! Beyond Current Model Capability Scope</tspan>
+    </text>
+
+    
+    <line class="arrow" x1="160" y1="540" x2="160" y2="570"/>
+    <text class="text-label" x="170" y="560">Algorithm Complexity Increasing</text>
+  </g>
+
+  
+  <g transform="translate(420,60)">
+    
+    <rect class="finding-box" x="0" y="130" width="350" height="80" rx="5"/>
+    <text class="text-label" x="10" y="155">
+      <tspan x="10" dy="0" font-weight="bold">Finding 1: Complexity Threshold Effect</tspan>
+      <tspan x="10" dy="20">Significant performance drop exists between Task 2</tspan>
+      <tspan x="10" dy="20">and Task 3, indicating current AI capability boundary</tspan>
+    </text>
+
+    
+    <rect class="finding-box" x="0" y="270" width="380" height="80" rx="5"/>
+    <text class="text-label" x="10" y="295">
+      <tspan x="10" dy="0" font-weight="bold">Finding 2: State Management Capability Differences</tspan>
+      <tspan x="10" dy="20">Static constraint handling outperforms dynamic state management,</tspan>
+      <tspan x="10" dy="20">affecting automation scope planning</tspan>
+    </text>
+
+    
+    <rect class="finding-box" x="0" y="410" width="430" height="80" rx="5"/>
+    <text class="text-label" x="10" y="435">
+      <tspan x="10" dy="0" font-weight="bold">Finding 3: Algorithm Implementation Bottleneck</tspan>
+      <tspan x="10" dy="20">Specific algorithm implementation (e.g., graph theory, dynamic programming)</tspan>
+      <tspan x="10" dy="20">is the primary bottleneck for current models</tspan>
+    </text>
+
+    
+    <line class="connection-line" x1="-100" y1="170" x2="0" y2="170"/>
+    <line class="connection-line" x1="-100" y1="310" x2="0" y2="310"/>
+    <line class="connection-line" x1="-100" y1="450" x2="0" y2="450"/>
+  </g>
+</svg>

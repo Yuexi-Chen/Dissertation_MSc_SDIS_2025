@@ -1,0 +1,226 @@
+{
+  "wards": [
+    {
+      "ward_name": "Orthopedic Male Ward",
+      "gender_restriction": "Male Only",
+      "age_restriction": [16, 120],
+      "target_condition": "Orthopedic Surgery Recovery",
+      "special_requirements": ["Mobility Aids"],
+      "available_beds": [3, 4],
+      "overflow_capacity": 2,
+      "satellite_hospitals": ["St. John's Hospital", "Ennis Hospital"]
+    },
+    {
+      "ward_name": "Maternity Female Ward",
+      "gender_restriction": "Female Only",
+      "age_restriction": [12, 65],
+      "target_condition": "Maternity Care",
+      "special_requirements": ["Neonatal Care Facilities"],
+      "available_beds": [2],
+      "overflow_capacity": 1,
+      "satellite_hospitals": ["Ennis Hospital"]
+    },
+    {
+      "ward_name": "General Medical Mixed Ward",
+      "gender_restriction": "No Gender Restriction",
+      "age_restriction": [16, 120],
+      "target_condition": "General Medical",
+      "special_requirements": ["Standard Monitoring"],
+      "available_beds": [1, 2, 4],
+      "overflow_capacity": 3,
+      "satellite_hospitals": ["Nenagh Hospital"]
+    },
+    {
+      "ward_name": "Pediatric Ward",
+      "gender_restriction": "No Gender Restriction",
+      "age_restriction": [0, 16],
+      "target_condition": "Pediatric Care",
+      "special_requirements": ["Parent Accommodation"],
+      "available_beds": [],
+      "overflow_capacity": 3,
+      "satellite_hospitals": ["Temple Street Children's Hospital"]
+    },
+    {
+      "ward_name": "Oncology Ward",
+      "gender_restriction": "No Gender Restriction",
+      "age_restriction": [16, 120],
+      "target_condition": "Cancer Treatment",
+      "special_requirements": ["Chemotherapy Facilities"],
+      "available_beds": [],
+      "overflow_capacity": 0,
+      "satellite_hospitals": ["St. James's Hospital"]
+    }
+  ],
+  "test_cases": [
+    {
+      "test_case": 1,
+      "test_description": "[Basic] Test standard ward assignment with matching gender, age and condition.",
+      "patient": {
+        "id": "P001",
+        "gender": "Male",
+        "age": 46,
+        "condition": "Orthopedic Surgery Recovery",
+        "special_requirements": ["Mobility Aids"]
+      },
+      "expected_result": {
+        "patient_id": "P001",
+        "assigned_ward": "Orthopedic Male Ward",
+        "assigned_bed": 3,
+        "assigned_satellite_hospital": null
+      }
+    },
+    {
+     "test_case": 2,
+     "test_description": "[Basic] Test assignment to mixed gender ward.",
+     "patient": {
+       "id": "P002",
+       "gender": "Female",
+       "age": 55,
+       "condition": "General Medical",
+       "special_requirements": ["Standard Monitoring"]
+     },
+     "expected_result": {
+       "patient_id": "P002",
+       "assigned_ward": "General Medical Mixed Ward",
+       "assigned_bed": 1,
+       "assigned_satellite_hospital": null
+     }
+    },
+    {
+      "test_case": 3,
+      "test_description": "[Edge] Test overflow bed assignment when regular beds unavailable.",
+      "patient": {
+        "id": "P003",
+        "gender": "Male",
+        "age": 8,
+        "condition": "Pediatric Care",
+        "special_requirements": ["Parent Accommodation"]
+      },
+      "expected_result": {
+        "patient_id": "P003",
+        "assigned_ward": "Pediatric Ward",
+        "assigned_bed": "Overflow-1",
+        "assigned_satellite_hospital": null
+      }
+    },
+    {
+      "test_case": 4,
+      "test_description": "[Edge] Test satellite hospital referral when no beds including overflow available.",
+      "patient": {
+        "id": "P004",
+        "gender": "Male",
+        "age": 60,
+        "condition": "Cancer Treatment",
+        "special_requirements": ["Chemotherapy Facilities"]
+      },
+      "expected_result": {
+        "patient_id": "P004",
+        "assigned_ward": null,
+        "assigned_bed": null,
+        "assigned_satellite_hospital": "St. James's Hospital"
+      }
+    },
+    {
+     "test_case": 5,
+     "test_description": "[Edge] Test age boundary condition - exactly at minimum age.",
+     "patient": {
+       "id": "P005",
+       "gender": "Female",
+       "age": 12,
+       "condition": "Maternity Care",
+       "special_requirements": ["Neonatal Care Facilities"]
+     },
+     "expected_result": {
+       "patient_id": "P005",
+       "assigned_ward": "Maternity Female Ward",
+       "assigned_bed": 2,
+       "assigned_satellite_hospital": null
+     }
+    },
+    {
+      "test_case": 6,
+      "test_description": "[Edge] Test age out of bounds - above maximum age.",
+      "patient": {
+        "id": "P006",
+        "gender": "Male",
+        "age": 121,
+        "condition": "General Medical",
+        "special_requirements": ["Standard Monitoring"]
+      },
+      "expected_result": {
+        "patient_id": "P006",
+        "assigned_ward": null,
+        "assigned_bed": null,
+        "assigned_satellite_hospital": null
+      }
+    },
+    {
+      "test_case": 7,
+      "test_description": "[Edge] Test gender restriction - female patient to male ward.",
+      "patient": {
+        "id": "P007",
+        "gender": "Female",
+        "age": 50,
+        "condition": "Orthopedic Surgery Recovery",
+        "special_requirements": ["Mobility Aids"]
+      },
+      "expected_result": {
+        "patient_id": "P007",
+        "assigned_ward": null,
+        "assigned_bed": null,
+        "assigned_satellite_hospital": null
+      }
+    },
+    {
+      "test_case": 8,
+      "test_description": "[Edge] Test special requirements not available.",
+      "patient": {
+        "id": "P008",
+        "gender": "Male",
+        "age": 45,
+        "condition": "General Medical",
+        "special_requirements": ["Isolation Room", "Ventilator"]
+      },
+      "expected_result": {
+        "patient_id": "P008",
+        "assigned_ward": null,
+        "assigned_bed": null,
+        "assigned_satellite_hospital": null
+      }
+    },
+    {
+      "test_case": 9,
+      "test_description": "[Edge] Test condition not matching any ward.",
+      "patient": {
+        "id": "P009",
+        "gender": "Female",
+        "age": 35,
+        "condition": "Psychiatric Care",
+        "special_requirements": []
+      },
+      "expected_result": {
+        "patient_id": "P009",
+        "assigned_ward": null,
+        "assigned_bed": null,
+        "assigned_satellite_hospital": null
+      }
+    },
+    {
+      "test_case": 10,
+      "test_description": "[Edge] Test pediatric patient above age limit.",
+      "patient": {
+        "id": "P010",
+        "gender": "Male",
+        "age": 17,
+        "condition": "Pediatric Care",
+        "special_requirements": ["Parent Accommodation"]
+      },
+      "expected_result": {
+        "patient_id": "P010",
+        "assigned_ward": null,
+        "assigned_bed": null,
+        "assigned_satellite_hospital": null
+      }
+    }
+  ]
+}

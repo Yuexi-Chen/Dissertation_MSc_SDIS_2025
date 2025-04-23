@@ -1,0 +1,23 @@
+{
+    "language": "python",
+    "file_extension": ".py",
+    "function_signatures": [
+        {
+            "task_id": "task_1",
+            "signature": "def allocate_bed(patient, wards):"
+        },
+        {
+            "task_id": "task_2",
+            "signature": "def reallocate_bed(patient, hospitals):"
+        },
+        {
+            "task_id": "task_3",
+            "signature": "def dispatch_ambulance(emergency_event, ambulances, hospitals, regions):"
+        },
+        {
+            "task_id": "task_4",
+            "signature": "def allocate_resources(patients, resources, responders, total_time):"
+        }
+    ],
+    "output_instruction": "Your function must RETURN a dictionary with the required fields. Include a main function that reads input from stdin as JSON, calls your function, and prints the result as JSON."
+}

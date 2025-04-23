@@ -1,0 +1,120 @@
+{
+  "task_id": "task_3",
+  "completeness": "partial",
+  "code_generation_instructions": "You are required to write a program to solve this ambulance dispatching problem according to the given task description. Your solution should follow the implementation requirements provided. Make sure your solution includes error handling and addresses all the specific requirements and constraints mentioned.",
+  "description": "You are tasked with developing an ambulance dispatching system for emergency medical services. The system must efficiently assign available ambulances to emergency events, calculating optimal routes while considering traffic conditions, and selecting appropriate hospitals based on emergency type and hospital capabilities.",
+  "implementation_requirements": [
+    "1. Input/Output Requirements:",
+    "   a. Do NOT modify the input data structures",
+    "   b. Always return a complete object with: emergency_id, assigned_ambulance, destination_hospital",
+    "   c. When no assignment is possible, return fields as null but maintain the object structure",
+    "   d. Follow the exact output format shown in the examples",
+    
+    "2. Algorithm Implementation (Using Graph):",
+    "   a. Graph Construction:",
+    "      - Regions are nodes; distances form edges with weights calculated as travel times",
+    "      - Edge weight: Travel Time = Distance (km) / (Base Speed * Congestion Factor) * 60 minutes",
+    "        * Base Speed: Urban = 30 km/h, Suburban = 50 km/h, Rural = 80 km/h",
+    "        * Congestion Factor between 0-1 (1 = no congestion, 0.5 = 50% slower)",
+    "      - Assign infinite weight to blocked routes",
+    
+    "   b. Two-Step Process (Fixed Order):",
+    "      - Step 1: Select the fastest ambulance that meets capability requirements using Dijkstra's algorithm",
+    "        * For tied arrival times, prioritize by capabilities, then lower ID",
+    "        * Critical emergencies require Advanced Life Support capabilities",
+    "      - Step 2: Using the selected ambulance, choose the best hospital using Dijkstra's algorithm",
+    "        * Filter by matching capabilities (Cardiac Center for cardiac cases, etc.)",
+    "        * Prioritize by emergency capacity (High > Medium > Low)",
+    "        * For Critical emergencies, prioritize response time over exact capability matching",
+    "        * Never reconsider ambulance selection even if no perfect hospital match exists",
+    
+    "   c. Time Calculation:",
+    "      - Response time = shortest path time from ambulance to emergency (0 if same region)",
+    "      - Hospital arrival time = shortest path time from emergency to hospital (0 if same region)",
+    "      - Round all times to nearest minute"
+    
+  ],
+  "examples": [
+    {
+      "example_name": "Example 1: Critical Cardiac Emergency",
+      "description": "Critical cardiac emergency requiring advanced life support",
+      "input": {
+        "emergency_event": {
+          "id": "E001",
+          "region_id": "R1",
+          "severity": "Critical",
+          "type": "Cardiac",
+          "special_requirements": ["Advanced Life Support", "Defibrillator"]
+        },
+        "ambulances": [
+          {
+            "id": "A1",
+            "capabilities": ["Cardiac Support", "Trauma Care", "Defibrillator"],
+            "current_region": "R1",
+            "status": "Available"
+          },
+          {
+            "id": "A3",
+            "capabilities": ["Cardiac Support", "Trauma Care", "Defibrillator"],
+            "current_region": "R3",
+            "status": "Available"
+          }
+        ],
+        "hospitals": [
+          {
+            "id": "H1",
+            "region_id": "R2",
+            "capabilities": ["Trauma Center", "Cardiac Center", "Stroke Unit"],
+            "emergency_capacity": "High"
+          },
+          {
+            "id": "H2",
+            "region_id": "R1",
+            "capabilities": ["General Emergency", "Minor Injuries"],
+            "emergency_capacity": "Medium"
+          }
+        ],
+        "regions": [
+          {
+            "region_id": "R1",
+            "type": "Urban",
+            "speed": 30,
+            "distances": {
+              "R2": 5,
+              "R3": 7
+            },
+            "congestion_factor": 0.5,
+            "blocked_routes": []
+          },
+          {
+            "region_id": "R2",
+            "type": "Suburban",
+            "speed": 50,
+            "distances": {
+              "R1": 5,
+              "R3": 8
+            },
+            "congestion_factor": 1.0,
+            "blocked_routes": []
+          },
+          {
+            "region_id": "R3",
+            "type": "Suburban",
+            "speed": 50,
+            "distances": {
+              "R1": 7,
+              "R2": 8
+            },
+            "congestion_factor": 1.0,
+            "blocked_routes": []
+          }
+        ]
+      },
+      "output": {
+        "emergency_id": "E001",
+        "assigned_ambulance": "A1",
+        "destination_hospital": "H1"
+      }
+    }
+  ]
+} 
