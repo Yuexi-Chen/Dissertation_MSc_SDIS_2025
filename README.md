@@ -25,6 +25,17 @@ project-root/
 - Environment token required for SonarQube (set as environment variable)
 - API key required for LLM APIs
 
+
+## 🖥 Experimental Environment
+
+The experiments were conducted on a personal laptop with the following specifications:
+
+* **Operating System**: Windows 10 64-bit
+* **Processor**: Intel Core i7-9750H
+* **Memory**: 16 GB DDR4 @ 2666 MHz
+* **GPU Acceleration**: Not used during the experiments
+
+
 ## 🚀 How to Run
 
 1. **Install dependencies**  
